@@ -38,7 +38,6 @@
       padding: 60px 20px;
       font-size: 2rem;
       font-weight: 700;
-      letter-spacing: 1px;
       border-bottom: 4px solid #b38cb4;
     }
 
@@ -182,6 +181,12 @@
       background-color: #b38cb4;
     }
 
+    #msg-status {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
     footer {
       text-align: center;
       background-color: #ffe6f0;
@@ -293,17 +298,21 @@
 
     <section id="contato">
       <h2>Contato</h2>
-      <form action="#" method="post">
+      <form id="contactForm">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
+        <label for="assunto">Assunto:</label>
+        <input type="text" id="assunto" name="assunto" required>
+
         <label for="mensagem">Mensagem:</label>
         <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
 
         <input type="submit" value="Enviar">
+        <p id="msg-status"></p>
       </form>
       <p style="text-align: center; margin-top: 20px;">
         📧 <strong>Email:</strong> rayanedeoliveiragoncalves123@gmail.com
@@ -312,5 +321,61 @@
   </div>
 
   <footer>© 2025 Rayane Gonçalves. Todos os direitos reservados.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+
+    const form = document.querySelector('#contactForm');
+    form.addEventListener('submit',(e) => {
+      e.preventDefault();
+
+
+      emailjs.init({
+        PublicKey:"i1DJfdKoRvPuDaItC"
+      });
+      emailjs.sendfrom("service_rvtqsdd,template_t3odwin",form);
+      .then(function() {
+        msgStatus.style.color = "green";
+        msgStatus.textContent = "Mensagem enviada com sucesso!";
+        document.getElementById("contactForm").reset();
+      }, function(error) {
+        msgStatus.style.color = "red";
+        msgStatus.textContent = "Ocorreu um erro ao enviar. Tente novamente.";
+        console.error("Erro:", error);
+      });
+      console.log("passei aqui")
+
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const assunto = document.getElementById("assunto").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
+      const msgStatus = document.getElementById("msg-status");
+
+      if (!nome || !email || !assunto || !mensagem) {
+        msgStatus.style.color = "red";
+        msgStatus.textContent = "Por favor, preencha todos os campos.";
+        return;
+      }
+
+      emailjs.send("SEU_SERVICE_IDservice_zi329hservice_zi329hb", "SEU_TEMPLATE_ID", {
+        from_name: nome,
+        from_email: email,
+        subject: assunto,
+        message: mensagem
+      })
+      .then(function() {
+        msgStatus.style.color = "green";
+        msgStatus.textContent = "Mensagem enviada com sucesso!";
+        document.getElementById("contactForm").reset();
+      }, function(error) {
+        msgStatus.style.color = "red";
+        msgStatus.textContent = "Ocorreu um erro ao enviar. Tente novamente.";
+        console.error("Erro:", error);
+      });
+    });
+  </script>
 </body>
 </html>
