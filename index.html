@@ -324,27 +324,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
+    // Inicializa o EmailJS
+    (function() {
+      emailjs.init("i1DJfdKoRvPuDaItC"); // substitua pela sua Public Key
+    })();
 
-    const form = document.querySelector('#contactForm');
-    form.addEventListener('submit',(e) => {
-      e.preventDefault();
-
-
-      emailjs.init({
-        PublicKey:"i1DJfdKoRvPuDaItC"
-      });
-      emailjs.sendfrom("service_rvtqsdd,template_t3odwin",form);
-      .then(function() {
-        msgStatus.style.color = "green";
-        msgStatus.textContent = "Mensagem enviada com sucesso!";
-        document.getElementById("contactForm").reset();
-      }, function(error) {
-        msgStatus.style.color = "red";
-        msgStatus.textContent = "Ocorreu um erro ao enviar. Tente novamente.";
-        console.error("Erro:", error);
-      });
-      console.log("passei aqui")
-
+    // Manipula o envio do formulário
     document.getElementById("contactForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
@@ -360,7 +345,7 @@
         return;
       }
 
-      emailjs.send("SEU_SERVICE_IDservice_zi329hservice_zi329hb", "SEU_TEMPLATE_ID", {
+      emailjs.send("service_rvtqsdd", "template_t3odwin", {
         from_name: nome,
         from_email: email,
         subject: assunto,
